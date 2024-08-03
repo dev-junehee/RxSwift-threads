@@ -9,19 +9,34 @@
 /* Begin PBXBuildFile section */
 		C480613A2C5B905A003FF7EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061392C5B905A003FF7EE /* AppDelegate.swift */; };
 		C480613C2C5B905A003FF7EE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480613B2C5B905A003FF7EE /* SceneDelegate.swift */; };
-		C480613E2C5B905A003FF7EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480613D2C5B905A003FF7EE /* ViewController.swift */; };
+		C480613E2C5B905A003FF7EE /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480613D2C5B905A003FF7EE /* PasswordViewController.swift */; };
 		C48061432C5B905C003FF7EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C48061422C5B905C003FF7EE /* Assets.xcassets */; };
 		C48061462C5B905C003FF7EE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = C48061452C5B905C003FF7EE /* Base */; };
+		C480614F2C5E68AF003FF7EE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C480614E2C5E68AF003FF7EE /* RxCocoa */; };
+		C48061512C5E68AF003FF7EE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C48061502C5E68AF003FF7EE /* RxSwift */; };
+		C48061562C5E6B7B003FF7EE /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061552C5E6B7B003FF7EE /* SignTextField.swift */; };
+		C48061592C5E6BCF003FF7EE /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061582C5E6BCF003FF7EE /* Resource.swift */; };
+		C480615B2C5E6C72003FF7EE /* PointButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480615A2C5E6C72003FF7EE /* PointButton.swift */; };
+		C480615E2C5E6D02003FF7EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C480615D2C5E6D02003FF7EE /* SnapKit */; };
+		C48061602C5E6D2F003FF7EE /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */; };
+		C48061622C5E7353003FF7EE /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061612C5E7353003FF7EE /* UIViewController+.swift */; };
+		C48061642C5E75DD003FF7EE /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061632C5E75DD003FF7EE /* PhoneViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C48061362C5B905A003FF7EE /* RxSwift-threads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RxSwift-threads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C48061392C5B905A003FF7EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C480613B2C5B905A003FF7EE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C480613D2C5B905A003FF7EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C480613D2C5B905A003FF7EE /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		C48061422C5B905C003FF7EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C48061452C5B905C003FF7EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C48061472C5B905C003FF7EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C48061552C5E6B7B003FF7EE /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
+		C48061582C5E6BCF003FF7EE /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		C480615A2C5E6C72003FF7EE /* PointButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointButton.swift; sourceTree = "<group>"; };
+		C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C48061612C5E7353003FF7EE /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		C48061632C5E75DD003FF7EE /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +44,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C480615E2C5E6D02003FF7EE /* SnapKit in Frameworks */,
+				C48061512C5E68AF003FF7EE /* RxSwift in Frameworks */,
+				C480614F2C5E68AF003FF7EE /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,14 +72,52 @@
 		C48061382C5B905A003FF7EE /* RxSwift-threads */ = {
 			isa = PBXGroup;
 			children = (
-				C48061392C5B905A003FF7EE /* AppDelegate.swift */,
-				C480613B2C5B905A003FF7EE /* SceneDelegate.swift */,
-				C480613D2C5B905A003FF7EE /* ViewController.swift */,
+				C48061572C5E6BAE003FF7EE /* Resource */,
+				C48061532C5E68EC003FF7EE /* Presentation */,
+				C48061522C5E68DB003FF7EE /* Application */,
 				C48061422C5B905C003FF7EE /* Assets.xcassets */,
 				C48061442C5B905C003FF7EE /* LaunchScreen.storyboard */,
 				C48061472C5B905C003FF7EE /* Info.plist */,
 			);
 			path = "RxSwift-threads";
+			sourceTree = "<group>";
+		};
+		C48061522C5E68DB003FF7EE /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C48061392C5B905A003FF7EE /* AppDelegate.swift */,
+				C480613B2C5B905A003FF7EE /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C48061532C5E68EC003FF7EE /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				C480613D2C5B905A003FF7EE /* PasswordViewController.swift */,
+				C48061632C5E75DD003FF7EE /* PhoneViewController.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		C48061542C5E6B66003FF7EE /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				C48061552C5E6B7B003FF7EE /* SignTextField.swift */,
+				C480615A2C5E6C72003FF7EE /* PointButton.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		C48061572C5E6BAE003FF7EE /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C48061542C5E6B66003FF7EE /* CustomView */,
+				C48061582C5E6BCF003FF7EE /* Resource.swift */,
+				C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */,
+				C48061612C5E7353003FF7EE /* UIViewController+.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,6 +136,11 @@
 			dependencies = (
 			);
 			name = "RxSwift-threads";
+			packageProductDependencies = (
+				C480614E2C5E68AF003FF7EE /* RxCocoa */,
+				C48061502C5E68AF003FF7EE /* RxSwift */,
+				C480615D2C5E6D02003FF7EE /* SnapKit */,
+			);
 			productName = "RxSwift-threads";
 			productReference = C48061362C5B905A003FF7EE /* RxSwift-threads.app */;
 			productType = "com.apple.product-type.application";
@@ -108,6 +169,10 @@
 				Base,
 			);
 			mainGroup = C480612D2C5B905A003FF7EE;
+			packageReferences = (
+				C480614D2C5E68AF003FF7EE /* XCRemoteSwiftPackageReference "RxSwift" */,
+				C480615C2C5E6D01003FF7EE /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = C48061372C5B905A003FF7EE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,9 +199,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C480613E2C5B905A003FF7EE /* ViewController.swift in Sources */,
+				C48061642C5E75DD003FF7EE /* PhoneViewController.swift in Sources */,
+				C48061562C5E6B7B003FF7EE /* SignTextField.swift in Sources */,
+				C480613E2C5B905A003FF7EE /* PasswordViewController.swift in Sources */,
+				C480615B2C5E6C72003FF7EE /* PointButton.swift in Sources */,
 				C480613A2C5B905A003FF7EE /* AppDelegate.swift in Sources */,
+				C48061592C5E6BCF003FF7EE /* Resource.swift in Sources */,
+				C48061602C5E6D2F003FF7EE /* BaseViewController.swift in Sources */,
 				C480613C2C5B905A003FF7EE /* SceneDelegate.swift in Sources */,
+				C48061622C5E7353003FF7EE /* UIViewController+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +428,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C480614D2C5E68AF003FF7EE /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.7.1;
+			};
+		};
+		C480615C2C5E6D01003FF7EE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C480614E2C5E68AF003FF7EE /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C480614D2C5E68AF003FF7EE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		C48061502C5E68AF003FF7EE /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C480614D2C5E68AF003FF7EE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		C480615D2C5E6D02003FF7EE /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C480615C2C5E6D01003FF7EE /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C480612E2C5B905A003FF7EE /* Project object */;
 }

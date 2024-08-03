@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         // let vc = PasswordViewController()
-        let vc = PhoneViewController()
+        // let vc = PhoneViewController()
+        let vc = BirthdayViewController()
         
         window?.rootViewController = UINavigationController(rootViewController: vc)
         window?.makeKeyAndVisible()

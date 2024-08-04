@@ -103,22 +103,8 @@ final class ShoppingListViewController: BaseViewController {
     private func bind() {
         filteredShoppingList
             .bind(to: tableView.rx.items(cellIdentifier: ShoppingTableViewCell.id, cellType: ShoppingTableViewCell.self)) { (row, element, cell) in
-                let buttonImage = element.done ? Image.checkFill : Image.check
-                cell.checkButton.setImage(buttonImage, for: .normal)
-                cell.checkButton.rx.tap.bind(with: self) { owner, _ in
-                    print("체크 버튼 클릭")
-                }
-                .disposed(by: self.disposeBag)
-                
-                let starImage = element.favorite ? Image.starFill : Image.star
-                cell.starButton.setImage(starImage, for: .normal)
-                cell.starButton.rx.tap.bind(with: self) { owner, _ in
-                    print("즐찾 버튼 클릭")
-                }
-                .disposed(by: self.disposeBag)
-                
-                cell.nameLabel.text = element.name
-                
+                let data = self.originShoppingList[row]
+                cell.updateCell(data: data)
             }
             .disposed(by: disposeBag)
         
@@ -128,11 +114,9 @@ final class ShoppingListViewController: BaseViewController {
             .rx
             .tap
             .bind(with: self) { owner, _ in
-                print("추가 버튼 클릭")
-                
                 guard let shoppingText = owner.textField.text else { return }
-                print(shoppingText)
-                owner.originShoppingList.append(Shopping(name: shoppingText, done: false, favorite: false))
+                owner.originShoppingList.insert(Shopping(name: shoppingText, done: false, favorite: false), at: 0)  // 데이터 추가
+                owner.filteredShoppingList.onNext(owner.originShoppingList)                                         // 필터링 데이터도 업데이트
                 owner.tableView.reloadData()
             }
             .disposed(by: disposeBag)

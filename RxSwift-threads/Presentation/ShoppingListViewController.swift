@@ -40,8 +40,7 @@ final class ShoppingListViewController: BaseViewController {
     
     private lazy var tableView = {
         let view = UITableView()
-        // view.delegate = self
-        // view.dataSource = self
+        view.delegate = self
         view.register(ShoppingTableViewCell.self, forCellReuseIdentifier: ShoppingTableViewCell.id)
         view.rowHeight = 54
         view.separatorStyle = .none
@@ -137,17 +136,16 @@ final class ShoppingListViewController: BaseViewController {
     
 }
 
-// extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource {
-//     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//         return originShoppingList.count
-//     }
-//     
-//     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//         guard let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingTableViewCell.id, for: indexPath) as? ShoppingTableViewCell else { return ShoppingTableViewCell() }
-//         
-//         let shoppingData = originShoppingList[indexPath.row]
-//         cell.updateCell(data: shoppingData)
-//         
-//         return cell
-//     }
-// }
+extension ShoppingListViewController: UITableViewDelegate  {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shopping = originShoppingList[indexPath.row]
+        
+        let delete = UIContextualAction(style: .destructive, title: "삭제" ) { _, _, _ in
+            self.originShoppingList.remove(at: indexPath.row)
+            self.filteredShoppingList.onNext(self.originShoppingList)
+            self.tableView.reloadData()
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+}

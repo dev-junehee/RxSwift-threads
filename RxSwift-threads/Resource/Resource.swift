@@ -12,3 +12,10 @@ enum Color {
     static let white: UIColor = .viewPoint
 }
 
+enum Image {
+    static let check = UIImage(systemName: "checkmark.square")!
+    static let checkFill = UIImage(systemName: "checkmark.square.fill")!
+    static let star = UIImage(systemName: "star")!
+    static let starFill = UIImage(systemName: "star.fill")!
+}
+

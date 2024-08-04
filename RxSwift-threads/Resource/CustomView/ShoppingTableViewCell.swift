@@ -18,20 +18,20 @@ final class ShoppingTableViewCell: UITableViewCell {
         return stack
     }()
     
-    private let checkButton = {
+    let checkButton = {
         let button = UIButton()
         button.setImage(Image.check, for: .normal)
         button.tintColor = Color.black
         return button
     }()
     
-    private let nameLabel = {
+    let nameLabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
-    private let starButton = {
+    let starButton = {
         let button = UIButton()
         button.setImage(Image.star, for: .normal)
         button.tintColor = Color.black
@@ -94,5 +94,5 @@ final class ShoppingTableViewCell: UITableViewCell {
         
         nameLabel.text = data.name
     }
-
+    
 }

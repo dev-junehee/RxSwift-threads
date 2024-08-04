@@ -40,19 +40,24 @@ final class ShoppingListViewController: BaseViewController {
     
     private lazy var tableView = {
         let view = UITableView()
-        view.delegate = self
-        view.dataSource = self
-        view.register(ShoppingTableViewCell.self, forCellReuseIdentifier: "ShoppingCell")
+        // view.delegate = self
+        // view.dataSource = self
+        view.register(ShoppingTableViewCell.self, forCellReuseIdentifier: ShoppingTableViewCell.id)
+        view.rowHeight = 54
         view.separatorStyle = .none
         return view
     }()
     
-    private var shoppingList = [
+    private var originShoppingList = [
         Shopping(name: "그립톡 구매하기", done: true, favorite: true),
         Shopping(name: "사이다 구매", done: false , favorite: false),
         Shopping(name: "아이패드 케이스 최저가 알아보기", done: false, favorite: true),
         Shopping(name: "양말", done: false, favorite: false)
     ]
+    
+    private lazy var filteredShoppingList = BehaviorSubject(value: originShoppingList)
+    
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,26 +101,69 @@ final class ShoppingListViewController: BaseViewController {
     }
     
     private func bind() {
+        filteredShoppingList
+            .bind(to: tableView.rx.items(cellIdentifier: ShoppingTableViewCell.id, cellType: ShoppingTableViewCell.self)) { (row, element, cell) in
+                let buttonImage = element.done ? Image.checkFill : Image.check
+                cell.checkButton.setImage(buttonImage, for: .normal)
+                cell.checkButton.rx.tap.bind(with: self) { owner, _ in
+                    print("체크 버튼 클릭")
+                }
+                .disposed(by: self.disposeBag)
+                
+                let starImage = element.favorite ? Image.starFill : Image.star
+                cell.starButton.setImage(starImage, for: .normal)
+                cell.starButton.rx.tap.bind(with: self) { owner, _ in
+                    print("즐찾 버튼 클릭")
+                }
+                .disposed(by: self.disposeBag)
+                
+                cell.nameLabel.text = element.name
+                
+            }
+            .disposed(by: disposeBag)
+        
+        
+        // 추가 버튼
+        addButton
+            .rx
+            .tap
+            .bind(with: self) { owner, _ in
+                print("추가 버튼 클릭")
+                
+                guard let shoppingText = owner.textField.text else { return }
+                print(shoppingText)
+                owner.originShoppingList.append(Shopping(name: shoppingText, done: false, favorite: false))
+                owner.tableView.reloadData()
+            }
+            .disposed(by: disposeBag)
+        
+        
+        
+        // 화면 전환
+        tableView
+            .rx
+            .modelSelected(Shopping.self)
+            .bind(with: self) { owner, _ in
+                let detail = ShoppingDetailViewController()
+                owner.navigationController?.pushViewController(detail, animated: true)
+            }
+            .disposed(by: disposeBag)
         
     }
     
 }
 
-extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shoppingList.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 54
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingCell", for: indexPath) as? ShoppingTableViewCell else { return ShoppingTableViewCell() }
-        
-        let shoppingData = shoppingList[indexPath.row]
-        cell.updateCell(data: shoppingData)
-        
-        return cell
-    }
-}
+// extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource {
+//     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//         return originShoppingList.count
+//     }
+//     
+//     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//         guard let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingTableViewCell.id, for: indexPath) as? ShoppingTableViewCell else { return ShoppingTableViewCell() }
+//         
+//         let shoppingData = originShoppingList[indexPath.row]
+//         cell.updateCell(data: shoppingData)
+//         
+//         return cell
+//     }
+// }

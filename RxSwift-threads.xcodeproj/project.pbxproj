@@ -25,6 +25,7 @@
 		C480616C2C5E9CEB003FF7EE /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */; };
 		C480616E2C5F923A003FF7EE /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616D2C5F923A003FF7EE /* Shopping.swift */; };
 		C48061702C5F9447003FF7EE /* ShoppingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616F2C5F9447003FF7EE /* ShoppingTableViewCell.swift */; };
+		C48061722C5FC597003FF7EE /* ShoppingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
 		C480616D2C5F923A003FF7EE /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
 		C480616F2C5F9447003FF7EE /* ShoppingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTableViewCell.swift; sourceTree = "<group>"; };
+		C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				C48061632C5E75DD003FF7EE /* PhoneViewController.swift */,
 				C48061652C5E835A003FF7EE /* BirthdayViewController.swift */,
 				C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */,
+				C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				C48061602C5E6D2F003FF7EE /* BaseViewController.swift in Sources */,
 				C480613C2C5B905A003FF7EE /* SceneDelegate.swift in Sources */,
 				C48061622C5E7353003FF7EE /* UIViewController+.swift in Sources */,
+				C48061722C5FC597003FF7EE /* ShoppingDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,20 @@ import SnapKit
 
 final class ShoppingListViewController: BaseViewController {
     
+    private let searchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = "쇼핑 목록을 검색해 보세용 🔍"
+        searchBar.searchTextField.font = .systemFont(ofSize: 12)
+        return searchBar
+    }()
+    
+    private let line = {
+        let line = UIView()
+        line.backgroundColor = .systemGroupedBackground
+        return line
+    }()
+    
     private let fieldView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -69,11 +83,25 @@ final class ShoppingListViewController: BaseViewController {
         let fieldSubViews = [textField, addButton]
         fieldSubViews.forEach { fieldView.addSubview($0) }
         
+        view.addSubview(searchBar)
+        view.addSubview(line)
         view.addSubview(fieldView)
         view.addSubview(tableView)
         
-        fieldView.snp.makeConstraints {
+        searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(8)
+            $0.height.equalTo(44)
+        }
+        
+        line.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(8)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(1)
+        }
+        
+        fieldView.snp.makeConstraints {
+            $0.top.equalTo(line.snp.bottom).offset(16)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(60)
         }
@@ -120,7 +148,15 @@ final class ShoppingListViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        
+        // 검색
+        searchBar.rx.text.orEmpty
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .bind(with: self) { owner, value in
+                let searched = value.isEmpty ? owner.originShoppingList : owner.originShoppingList.filter { $0.name.contains(value) }
+                owner.filteredShoppingList.onNext(searched)
+            }
+            .disposed(by: disposeBag)
         
         // 화면 전환
         tableView
@@ -138,14 +174,11 @@ final class ShoppingListViewController: BaseViewController {
 
 extension ShoppingListViewController: UITableViewDelegate  {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let shopping = originShoppingList[indexPath.row]
-        
         let delete = UIContextualAction(style: .destructive, title: "삭제" ) { _, _, _ in
             self.originShoppingList.remove(at: indexPath.row)
             self.filteredShoppingList.onNext(self.originShoppingList)
             self.tableView.reloadData()
         }
-        
         return UISwipeActionsConfiguration(actions: [delete])
     }
 }

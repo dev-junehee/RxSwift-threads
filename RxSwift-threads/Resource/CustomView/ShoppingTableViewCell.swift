@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class ShoppingTableViewCell: UITableViewCell {
     
@@ -38,6 +39,8 @@ final class ShoppingTableViewCell: UITableViewCell {
         return button
     }()
     
+    var disposeBag = DisposeBag()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -47,6 +50,11 @@ final class ShoppingTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0))
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()   // 셀 중첩 구독 해결
     }
     
     required init?(coder: NSCoder) {

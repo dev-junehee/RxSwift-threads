@@ -68,7 +68,7 @@ final class ShoppingListViewController: BaseViewController {
         Shopping(name: "양말", done: false, favorite: false)
     ]
     
-    private lazy var filteredShoppingList = BehaviorSubject(value: originShoppingList)
+    private lazy var filteredShoppingList = BehaviorRelay(value: originShoppingList)
     
     private let disposeBag = DisposeBag()
 
@@ -130,8 +130,24 @@ final class ShoppingListViewController: BaseViewController {
     private func bind() {
         filteredShoppingList
             .bind(to: tableView.rx.items(cellIdentifier: ShoppingTableViewCell.id, cellType: ShoppingTableViewCell.self)) { (row, element, cell) in
-                let data = self.originShoppingList[row]
-                cell.updateCell(data: data)
+                print("row", row)
+                // print("element", element)
+                // print("cell", cell)
+                cell.updateCell(data: element)
+                
+                // 셀 체크버튼 탭
+                cell.checkButton.rx.tap
+                    .bind(with: self) { owner, _ in
+                        owner.toggleCheckButton(row)
+                    }
+                    .disposed(by: cell.disposeBag)  // 셀에 있는 disposeBag!
+                
+                // 셀 즐찾버튼 탭
+                cell.starButton.rx.tap
+                    .bind(with: self) { owner, _ in
+                        owner.toggleStarButton(row)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -143,8 +159,9 @@ final class ShoppingListViewController: BaseViewController {
             .bind(with: self) { owner, _ in
                 guard let shoppingText = owner.textField.text else { return }
                 owner.originShoppingList.insert(Shopping(name: shoppingText, done: false, favorite: false), at: 0)  // 데이터 추가
-                owner.filteredShoppingList.onNext(owner.originShoppingList)                                         // 필터링 데이터도 업데이트
+                owner.filteredShoppingList.accept(owner.originShoppingList)                                         // 필터링 데이터도 업데이트
                 owner.tableView.reloadData()
+                owner.textField.text = ""
             }
             .disposed(by: disposeBag)
         
@@ -154,7 +171,7 @@ final class ShoppingListViewController: BaseViewController {
             .distinctUntilChanged()
             .bind(with: self) { owner, value in
                 let searched = value.isEmpty ? owner.originShoppingList : owner.originShoppingList.filter { $0.name.contains(value) }
-                owner.filteredShoppingList.onNext(searched)
+                owner.filteredShoppingList.accept(searched)
             }
             .disposed(by: disposeBag)
         
@@ -162,12 +179,22 @@ final class ShoppingListViewController: BaseViewController {
         tableView
             .rx
             .modelSelected(Shopping.self)
-            .bind(with: self) { owner, _ in
+            .bind(with: self) { owner, data in
                 let detail = ShoppingDetailViewController()
+                detail.shoppingData = data
                 owner.navigationController?.pushViewController(detail, animated: true)
             }
             .disposed(by: disposeBag)
-        
+    }
+    
+    private func toggleCheckButton(_ row: Int) {
+        originShoppingList[row].done.toggle()
+        filteredShoppingList.accept(originShoppingList)
+    }
+    
+    private func toggleStarButton(_ row: Int) {
+        originShoppingList[row].favorite.toggle()
+        filteredShoppingList.accept(originShoppingList)
     }
     
 }
@@ -176,7 +203,7 @@ extension ShoppingListViewController: UITableViewDelegate  {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "삭제" ) { _, _, _ in
             self.originShoppingList.remove(at: indexPath.row)
-            self.filteredShoppingList.onNext(self.originShoppingList)
+            self.filteredShoppingList.accept(self.originShoppingList)
             self.tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [delete])

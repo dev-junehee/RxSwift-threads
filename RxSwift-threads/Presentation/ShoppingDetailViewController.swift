@@ -9,8 +9,12 @@ import Foundation
 
 final class ShoppingDetailViewController: BaseViewController {
     
+    var shoppingData: Shopping?
+    
     override func setViewController() {
-        navigationItem.title = "쇼핑 상세"
+        guard let shoppingData else { return }
+        // navigationItem.title = "쇼핑 상세"
+        navigationItem.title = shoppingData.name
     }
     
     

@@ -82,9 +82,12 @@
 		C48061382C5B905A003FF7EE /* RxSwift-threads */ = {
 			isa = PBXGroup;
 			children = (
+				C48061522C5E68DB003FF7EE /* Application */,
+				C480617B2C60A8D3003FF7EE /* Extension */,
+				C480617A2C60A8C2003FF7EE /* Component */,
+				C48061792C60A8AD003FF7EE /* Model */,
 				C48061572C5E6BAE003FF7EE /* Resource */,
 				C48061532C5E68EC003FF7EE /* Presentation */,
-				C48061522C5E68DB003FF7EE /* Application */,
 				C48061422C5B905C003FF7EE /* Assets.xcassets */,
 				C48061442C5B905C003FF7EE /* LaunchScreen.storyboard */,
 				C48061472C5B905C003FF7EE /* Info.plist */,
@@ -104,11 +107,8 @@
 		C48061532C5E68EC003FF7EE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				C480613D2C5B905A003FF7EE /* PasswordViewController.swift */,
-				C48061632C5E75DD003FF7EE /* PhoneViewController.swift */,
-				C48061652C5E835A003FF7EE /* BirthdayViewController.swift */,
-				C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */,
-				C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */,
+				C48061782C60A869003FF7EE /* SignUp */,
+				C48061772C60A855003FF7EE /* Shopping */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -126,13 +126,53 @@
 		C48061572C5E6BAE003FF7EE /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				C48061542C5E6B66003FF7EE /* CustomView */,
 				C48061582C5E6BCF003FF7EE /* Resource.swift */,
-				C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */,
-				C48061612C5E7353003FF7EE /* UIViewController+.swift */,
-				C480616D2C5F923A003FF7EE /* Shopping.swift */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		C48061772C60A855003FF7EE /* Shopping */ = {
+			isa = PBXGroup;
+			children = (
+				C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */,
+				C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */,
+			);
+			path = Shopping;
+			sourceTree = "<group>";
+		};
+		C48061782C60A869003FF7EE /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				C480613D2C5B905A003FF7EE /* PasswordViewController.swift */,
+				C48061632C5E75DD003FF7EE /* PhoneViewController.swift */,
+				C48061652C5E835A003FF7EE /* BirthdayViewController.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		C48061792C60A8AD003FF7EE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C480616D2C5F923A003FF7EE /* Shopping.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C480617A2C60A8C2003FF7EE /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */,
+				C48061542C5E6B66003FF7EE /* CustomView */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		C480617B2C60A8D3003FF7EE /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C48061612C5E7353003FF7EE /* UIViewController+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

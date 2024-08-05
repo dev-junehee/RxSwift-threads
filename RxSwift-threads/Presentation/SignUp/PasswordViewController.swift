@@ -26,7 +26,7 @@ final class PasswordViewController: BaseViewController {
     private let descriptionLabel = UILabel()
     private let nextButton = PointButton(title: "다음")
     
-    private let validText = Observable.just("8자 이상 입력해 주세요.")
+    private let viewModel = PasswordViewModel()
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -59,34 +59,29 @@ final class PasswordViewController: BaseViewController {
     }
 
     func bind() {
+        let input = PasswordViewModel.Input(passwordText: passwordTextField.rx.text,
+                                            nextButtonTap: nextButton.rx.tap)
+        let output = viewModel.transform(input: input)
+        
         // descriptionLabel에 바로 할당
-        validText
+        output.validText
             .bind(to: descriptionLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // passwordTextField의 텍스트가 있거나 비어있을 때, 길이가 8 이상인 경우 - Observable<Bool>
-        let validation = passwordTextField
-            .rx
-            .text
-            .orEmpty
-            .map { $0.count >= 8 }
-        
         // validation이 true일 때 nextButton 활성화 + descriptionLabel 숨김 처리
-        validation
+        output.validation
             .bind(to: nextButton.rx.isEnabled, descriptionLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
         // validation 값에 따라 nextButton 색상 변경
-        validation
+        output.validation
             .bind(with: self) { owner, value in
                 let color: UIColor = value ? .systemPink : .lightGray
                 owner.nextButton.backgroundColor = color
             }
             .disposed(by: disposeBag)
         
-        nextButton
-            .rx
-            .tap
+        output.nextButtonTap
             .bind(with: self) { owner, _ in
                 owner.showAlert(title: "다음 버튼 클릭!")
             }

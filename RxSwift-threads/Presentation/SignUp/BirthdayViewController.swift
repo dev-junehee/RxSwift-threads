@@ -7,7 +7,7 @@
 
 import UIKit
 
-import RxCocoa
+// import RxCocoa
 import RxSwift
 import SnapKit
 
@@ -27,16 +27,10 @@ final class BirthdayViewController: BaseViewController {
     private let monthLabel = UILabel()
     private let dayLabel = UILabel()
   
-    
     private let datePicker = UIDatePicker()
     private let signButton = PointButton(title: "가입하기")
     
-    private let validText = Observable.just("만 17세 이상만 가입 가능합니다.")
-    
-    private let year = BehaviorSubject(value: 0000)
-    private let month = BehaviorSubject(value: 00)
-    private let day = BehaviorSubject(value: 00)
-    
+    private let viewModel = BirthdayViewModel()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -92,57 +86,30 @@ final class BirthdayViewController: BaseViewController {
     }
     
     private func bind() {
-        validText
+        let input = BirthdayViewModel.Input(birthDay: datePicker.rx.date,
+                                            signButtonTap: signButton.rx.tap)
+        let output = viewModel.transform(input: input)
+        
+        output.validText
             .bind(to: validationLabel.rx.text)
             .disposed(by: disposeBag)
         
-        datePicker
-            .rx
-            .date
-            .bind(with: self) { owner, date in
-                // print(date)     // 2024-08-03 16:09:02 +0000
-                
-                let component = Calendar.current.dateComponents([.year, .month, .day], from: date)
-                // print(component)    // year: 2024 month: 8 day: 4 isLeapMonth: false
-                
-                if let year = component.year, let month = component.month, let day = component.day {
-                    owner.year.onNext(year)
-                    owner.month.onNext(month)
-                    owner.day.onNext(day)
-                }
-                
-            }
-            .disposed(by: disposeBag)
-        
-        year
+        output.year
             .map { "\($0)년" }
             .bind(to: yearLabel.rx.text)
             .disposed(by: disposeBag)
         
-        month
+        output.month
             .map { "\($0)월" }
             .bind(to: monthLabel.rx.text)
             .disposed(by: disposeBag)
         
-        day
+        output.day
             .map { "\($0)일" }
             .bind(to: dayLabel.rx.text)
             .disposed(by: disposeBag)
         
-        let validation = datePicker
-            .rx
-            .date
-            .map { date in
-                let thisYear = Calendar.current.dateComponents([.year], from: Date())      // 올해 연도
-                let targetYear = Calendar.current.dateComponents([.year], from: date)      // 타겟 연도
-                
-                if let this = thisYear.year, let target = targetYear.year {
-                    return this - target >= 17 ? true : false   //
-                }
-                return false
-            }
-        
-        validation
+        output.validation
             .bind(with: self) { owner, value in
                 let labelColor: UIColor = value ? .blue : .red
                 let buttonColor: UIColor = value ? .blue : .lightGray
@@ -154,9 +121,7 @@ final class BirthdayViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        signButton
-            .rx
-            .tap
+        output.signButtonTap
             .bind(with: self) { owner, _ in
                 owner.showAlert(title: "가입 완료!")
             }

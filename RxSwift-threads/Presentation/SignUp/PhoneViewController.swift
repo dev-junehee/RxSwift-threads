@@ -25,8 +25,10 @@ final class PhoneViewController: BaseViewController {
     private let descriptionLabel = UILabel()
     private let nextButton = PointButton(title: "다음")
     
-    private let defaultText = Observable.just("010")
-    private let validText = Observable.just("10자 이상 입력해 주세요.")
+    // private let defaultText = Observable.just("010")
+    // private let validText = Observable.just("10자 이상 입력해 주세요.")
+    
+    private let viewModel = PhoneViewModel()
     private let disposeBag = DisposeBag()
     
     private let minPhoneLength = 10
@@ -63,38 +65,34 @@ final class PhoneViewController: BaseViewController {
     }
     
     private func bind() {
+        let input = PhoneViewModel.Input(phoneText: phoneTextField.rx.text,
+                                         nextButtonTap: nextButton.rx.tap)
+        let output = viewModel.transform(input: input)
+        
         // 첫 화면 진입 시 phoneTextField에 '010' 띄우기
-        defaultText
+        output.defaultText
             .bind(to: phoneTextField.rx.text)
             .disposed(by: disposeBag)
         
         // descriptionLabel 유효성 검사 텍스트
         // 첫 화면 진입 시 '10자리 이상 입력해 주세요' 노출
-        validText
+        output.validText
             .bind(to: descriptionLabel.rx.text)
             .disposed(by: disposeBag)
         
         // 유효성 검사 true - 10자리 이상일 때 + 숫자일 때
-        let validation = phoneTextField
-            .rx
-            .text
-            .orEmpty
-            .map { $0.count >= self.minPhoneLength && Int($0) != nil }
-        
-        validation
+        output.validation
             .bind(to: nextButton.rx.isEnabled, descriptionLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-        validation
+        output.validation
             .bind(with: self) { owner, value in
                 let color: UIColor = value ? .systemMint : .lightGray
                 owner.nextButton.backgroundColor = color
             }
             .disposed(by: disposeBag)
         
-        nextButton
-            .rx
-            .tap
+        output.nextButtonTap
             .bind(with: self) { owner, value in
                 owner.showAlert(title: "다음 버튼 클릭!")
             }

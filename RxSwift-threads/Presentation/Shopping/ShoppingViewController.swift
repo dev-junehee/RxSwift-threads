@@ -49,7 +49,7 @@ final class ShoppingViewController: BaseViewController {
     }()
     private lazy var tableView = {
         let view = UITableView()
-        view.delegate = self
+        // view.delegate = self
         view.register(ShoppingTableViewCell.self, forCellReuseIdentifier: ShoppingTableViewCell.id)
         view.rowHeight = 54
         view.separatorStyle = .none
@@ -178,6 +178,16 @@ final class ShoppingViewController: BaseViewController {
                 owner.navigationController?.pushViewController(detail, animated: true)
             }
             .disposed(by: disposeBag)
+        
+        
+        // 셀 삭제
+        tableView.rx.itemDeleted
+            .bind(with: self) { owner, indexPath in
+                owner.originShoppingList.remove(at: indexPath.row)
+                owner.filteredShoppingList.accept(owner.originShoppingList)
+                self.tableView.reloadData()
+            }
+            .disposed(by: disposeBag)
     }
     
     private func toggleCheckButton(_ row: Int) {
@@ -190,15 +200,4 @@ final class ShoppingViewController: BaseViewController {
         filteredShoppingList.accept(originShoppingList)
     }
     
-}
-
-extension ShoppingViewController: UITableViewDelegate  {
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "삭제" ) { _, _, _ in
-            self.originShoppingList.remove(at: indexPath.row)
-            self.filteredShoppingList.accept(self.originShoppingList)
-            self.tableView.reloadData()
-        }
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
 }

@@ -22,10 +22,11 @@
 		C48061622C5E7353003FF7EE /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061612C5E7353003FF7EE /* UIViewController+.swift */; };
 		C48061642C5E75DD003FF7EE /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061632C5E75DD003FF7EE /* PhoneViewController.swift */; };
 		C48061662C5E835A003FF7EE /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061652C5E835A003FF7EE /* BirthdayViewController.swift */; };
-		C480616C2C5E9CEB003FF7EE /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */; };
+		C480616C2C5E9CEB003FF7EE /* ShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616B2C5E9CEB003FF7EE /* ShoppingViewController.swift */; };
 		C480616E2C5F923A003FF7EE /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616D2C5F923A003FF7EE /* Shopping.swift */; };
 		C48061702C5F9447003FF7EE /* ShoppingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480616F2C5F9447003FF7EE /* ShoppingTableViewCell.swift */; };
 		C48061722C5FC597003FF7EE /* ShoppingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */; };
+		C480617D2C60B439003FF7EE /* ShoppingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480617C2C60B439003FF7EE /* ShoppingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,10 +44,11 @@
 		C48061612C5E7353003FF7EE /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		C48061632C5E75DD003FF7EE /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		C48061652C5E835A003FF7EE /* BirthdayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = "<group>"; };
-		C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
+		C480616B2C5E9CEB003FF7EE /* ShoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewController.swift; sourceTree = "<group>"; };
 		C480616D2C5F923A003FF7EE /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
 		C480616F2C5F9447003FF7EE /* ShoppingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTableViewCell.swift; sourceTree = "<group>"; };
 		C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingDetailViewController.swift; sourceTree = "<group>"; };
+		C480617C2C60B439003FF7EE /* ShoppingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +136,9 @@
 		C48061772C60A855003FF7EE /* Shopping */ = {
 			isa = PBXGroup;
 			children = (
-				C480616B2C5E9CEB003FF7EE /* ShoppingListViewController.swift */,
+				C480616B2C5E9CEB003FF7EE /* ShoppingViewController.swift */,
 				C48061712C5FC597003FF7EE /* ShoppingDetailViewController.swift */,
+				C480617C2C60B439003FF7EE /* ShoppingViewModel.swift */,
 			);
 			path = Shopping;
 			sourceTree = "<group>";
@@ -254,13 +257,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C480616C2C5E9CEB003FF7EE /* ShoppingListViewController.swift in Sources */,
+				C480616C2C5E9CEB003FF7EE /* ShoppingViewController.swift in Sources */,
 				C48061702C5F9447003FF7EE /* ShoppingTableViewCell.swift in Sources */,
 				C480616E2C5F923A003FF7EE /* Shopping.swift in Sources */,
 				C48061642C5E75DD003FF7EE /* PhoneViewController.swift in Sources */,
 				C48061562C5E6B7B003FF7EE /* SignTextField.swift in Sources */,
 				C480613E2C5B905A003FF7EE /* PasswordViewController.swift in Sources */,
 				C480615B2C5E6C72003FF7EE /* PointButton.swift in Sources */,
+				C480617D2C60B439003FF7EE /* ShoppingViewModel.swift in Sources */,
 				C480613A2C5B905A003FF7EE /* AppDelegate.swift in Sources */,
 				C48061662C5E835A003FF7EE /* BirthdayViewController.swift in Sources */,
 				C48061592C5E6BCF003FF7EE /* Resource.swift in Sources */,

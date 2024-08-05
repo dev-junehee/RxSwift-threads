@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-final class ShoppingListViewController: BaseViewController {
+final class ShoppingViewController: BaseViewController {
     
     private let searchBar = {
         let searchBar = UISearchBar()
@@ -20,13 +20,11 @@ final class ShoppingListViewController: BaseViewController {
         searchBar.searchTextField.font = .systemFont(ofSize: 12)
         return searchBar
     }()
-    
     private let line = {
         let line = UIView()
         line.backgroundColor = .systemGroupedBackground
         return line
     }()
-    
     private let fieldView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -34,14 +32,12 @@ final class ShoppingListViewController: BaseViewController {
         view.layer.cornerRadius = 12
         return view
     }()
-    
     private let textField = {
         let field = UITextField()
         field.placeholder = "무엇을 구매하실 건가요?"
         field.font = .systemFont(ofSize: 12)
         return field
     }()
-    
     private let addButton = {
         let button = UIButton()
         button.setTitle("추가", for: .normal)
@@ -51,7 +47,6 @@ final class ShoppingListViewController: BaseViewController {
         button.layer.cornerRadius = 12
         return button
     }()
-    
     private lazy var tableView = {
         let view = UITableView()
         view.delegate = self
@@ -70,6 +65,7 @@ final class ShoppingListViewController: BaseViewController {
     
     private lazy var filteredShoppingList = BehaviorRelay(value: originShoppingList)
     
+    private let viewModel = ShoppingViewModel()
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -83,10 +79,8 @@ final class ShoppingListViewController: BaseViewController {
         let fieldSubViews = [textField, addButton]
         fieldSubViews.forEach { fieldView.addSubview($0) }
         
-        view.addSubview(searchBar)
-        view.addSubview(line)
-        view.addSubview(fieldView)
-        view.addSubview(tableView)
+        let views = [searchBar, line, fieldView, tableView]
+        views.forEach { view.addSubview($0) }
         
         searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -128,11 +122,16 @@ final class ShoppingListViewController: BaseViewController {
     }
     
     private func bind() {
-        filteredShoppingList
+        let input = ShoppingViewModel.Input(filteredList: filteredShoppingList,
+                                            addButtonTap: addButton.rx.tap,
+                                            searchText: searchBar.rx.text,
+                                            tableSelected: tableView.rx.modelSelected(Shopping.self))
+        
+        let output = viewModel.transform(input: input)
+        
+        output.filteredList
             .bind(to: tableView.rx.items(cellIdentifier: ShoppingTableViewCell.id, cellType: ShoppingTableViewCell.self)) { (row, element, cell) in
-                print("row", row)
-                // print("element", element)
-                // print("cell", cell)
+                
                 cell.updateCell(data: element)
                 
                 // 셀 체크버튼 탭
@@ -153,9 +152,7 @@ final class ShoppingListViewController: BaseViewController {
         
         
         // 추가 버튼
-        addButton
-            .rx
-            .tap
+        output.addButtonTap
             .bind(with: self) { owner, _ in
                 guard let shoppingText = owner.textField.text else { return }
                 owner.originShoppingList.insert(Shopping(name: shoppingText, done: false, favorite: false), at: 0)  // 데이터 추가
@@ -166,19 +163,15 @@ final class ShoppingListViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         // 검색
-        searchBar.rx.text.orEmpty
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
+        output.searchText
             .bind(with: self) { owner, value in
                 let searched = value.isEmpty ? owner.originShoppingList : owner.originShoppingList.filter { $0.name.contains(value) }
                 owner.filteredShoppingList.accept(searched)
             }
             .disposed(by: disposeBag)
         
-        // 화면 전환
-        tableView
-            .rx
-            .modelSelected(Shopping.self)
+        // 셀 클릭 + 화면 전환
+        output.tableSelected
             .bind(with: self) { owner, data in
                 let detail = ShoppingDetailViewController()
                 detail.shoppingData = data
@@ -199,7 +192,7 @@ final class ShoppingListViewController: BaseViewController {
     
 }
 
-extension ShoppingListViewController: UITableViewDelegate  {
+extension ShoppingViewController: UITableViewDelegate  {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "삭제" ) { _, _, _ in
             self.originShoppingList.remove(at: indexPath.row)

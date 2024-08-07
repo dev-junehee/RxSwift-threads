@@ -112,8 +112,8 @@ final class ShoppingViewController: BaseViewController {
     }
     
     private func bind() {
-        var checkButtonRow = PublishSubject<Int>()
-        var starButtonRow = PublishSubject<Int>()
+        let checkButtonRow = PublishSubject<Int>()
+        let starButtonRow = PublishSubject<Int>()
         
         let input = ShoppingViewModel.Input(addShoppingName: textField.rx.text,
                                             addButtonTap: addButton.rx.tap,
@@ -121,7 +121,8 @@ final class ShoppingViewController: BaseViewController {
                                             tableSelected: tableView.rx.modelSelected(Shopping.self),
                                             tableDeleted: tableView.rx.itemDeleted,
                                             checkButtonRow: checkButtonRow,
-                                            starButtonRow: starButtonRow)
+                                            starButtonRow: starButtonRow,
+                                            recentSelected: collectionView.rx.itemSelected)
         let output = viewModel.transform(input: input)
         
         output.filteredList
@@ -158,7 +159,7 @@ final class ShoppingViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // 셀 클릭 + 화면 전환
+        // 테이블뷰 셀 클릭 + 화면 전환
         output.tableSelected
             .bind(with: self) { owner, data in
                 let detail = ShoppingDetailViewController()
@@ -166,6 +167,10 @@ final class ShoppingViewController: BaseViewController {
                 owner.navigationController?.pushViewController(detail, animated: true)
             }
             .disposed(by: disposeBag)
-        }
-
+        
+        
+        
     }
+
+    
+}

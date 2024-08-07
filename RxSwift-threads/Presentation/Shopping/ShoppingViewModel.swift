@@ -22,7 +22,7 @@ final class ShoppingViewModel {
     ]
     
     // 최근 검색 (컬렉션뷰)
-    var recentList = ["1", "2"]
+    var recentList = ["키보드", "뮤지컬", "양말", "모니터", "마우스패드", "안경"]
     
     struct Input {
         let addShoppingName: ControlProperty<String?>
@@ -32,6 +32,7 @@ final class ShoppingViewModel {
         let tableDeleted: ControlEvent<IndexPath>
         let checkButtonRow: PublishSubject<Int>
         let starButtonRow: PublishSubject<Int>
+        let recentSelected: ControlEvent<IndexPath>
     }
     
     struct Output {
@@ -100,6 +101,15 @@ final class ShoppingViewModel {
                 filteredList.onNext(owner.shoppingList)
             }
             .disposed(by: disposeBag)
+        
+        input.recentSelected
+            .bind(with: self) { owner, indexPath in
+                let selected = owner.recentList[indexPath.row]
+                owner.shoppingList.insert(Shopping(name: selected, done: false, favorite: false), at: 0)
+                filteredList.onNext(owner.shoppingList)
+            }
+            .disposed(by: disposeBag)
+        
         
         return Output(filteredList: filteredList,
                       recentList: recentList,

@@ -42,6 +42,8 @@ final class ShoppingViewController: BaseViewController {
         button.layer.cornerRadius = 12
         return button
     }()
+    
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     private lazy var tableView = {
         let view = UITableView()
         // view.delegate = self
@@ -51,20 +53,16 @@ final class ShoppingViewController: BaseViewController {
         return view
     }()
     
-    private var originShoppingList = [
-        Shopping(name: "그립톡 구매하기", done: true, favorite: true),
-        Shopping(name: "사이다 구매", done: false , favorite: false),
-        Shopping(name: "아이패드 케이스 최저가 알아보기", done: false, favorite: true),
-        Shopping(name: "양말", done: false, favorite: false)
-    ]
-    
-    private lazy var filteredShoppingList = BehaviorRelay(value: originShoppingList)
-    
-    private let itemSelected = PublishSubject<Shopping>()
+    private func layout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 80, height: 40)
+        layout.scrollDirection = .horizontal
+        return layout
+    }
     
     private let viewModel = ShoppingViewModel()
     private let disposeBag = DisposeBag()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
@@ -76,7 +74,7 @@ final class ShoppingViewController: BaseViewController {
         let fieldSubViews = [textField, addButton]
         fieldSubViews.forEach { fieldView.addSubview($0) }
         
-        let views = [fieldView, tableView]
+        let views = [fieldView, collectionView, tableView]
         views.forEach { view.addSubview($0) }
         
         fieldView.snp.makeConstraints {
@@ -99,18 +97,31 @@ final class ShoppingViewController: BaseViewController {
             $0.height.equalTo(40)
         }
         
-        tableView.snp.makeConstraints {
+        collectionView.snp.makeConstraints {
             $0.top.equalTo(fieldView.snp.bottom).offset(16)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.height.equalTo(40)
+        }
+        collectionView.register(ShoppingCollectionViewCell.self, forCellWithReuseIdentifier: ShoppingCollectionViewCell.id)
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.bottom).offset(16)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     private func bind() {
-        let input = ShoppingViewModel.Input(filteredList: filteredShoppingList,
+        var checkButtonRow = PublishSubject<Int>()
+        var starButtonRow = PublishSubject<Int>()
+        
+        let input = ShoppingViewModel.Input(addShoppingName: textField.rx.text,
                                             addButtonTap: addButton.rx.tap,
                                             searchText: searchBar.rx.text,
-                                            tableSelected: tableView.rx.modelSelected(Shopping.self))
+                                            tableSelected: tableView.rx.modelSelected(Shopping.self),
+                                            tableDeleted: tableView.rx.itemDeleted,
+                                            checkButtonRow: checkButtonRow,
+                                            starButtonRow: starButtonRow)
         let output = viewModel.transform(input: input)
         
         output.filteredList
@@ -121,37 +132,29 @@ final class ShoppingViewController: BaseViewController {
                 // 셀 체크버튼 탭
                 cell.checkButton.rx.tap
                     .bind(with: self) { owner, _ in
-                        owner.itemSelected.onNext(element)
-                        owner.toggleCheckButton(row)
+                        checkButtonRow.onNext(row)
                     }
                     .disposed(by: cell.disposeBag)  // 셀에 있는 disposeBag!
                 
                 // 셀 즐찾버튼 탭
                 cell.starButton.rx.tap
                     .bind(with: self) { owner, _ in
-                        owner.toggleStarButton(row)
+                        starButtonRow.onNext(row)
                     }
                     .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
+        output.recentList
+            .bind(to: collectionView.rx.items(cellIdentifier: ShoppingCollectionViewCell.id, cellType: ShoppingCollectionViewCell.self)) { (row, element, cell) in
+                cell.label.text = "\(element)"
+            }
+            .disposed(by: disposeBag)
         
         // 추가 버튼
         output.addButtonTap
             .bind(with: self) { owner, _ in
-                guard let shoppingText = owner.textField.text else { return }
-                owner.originShoppingList.insert(Shopping(name: shoppingText, done: false, favorite: false), at: 0)  // 데이터 추가
-                owner.filteredShoppingList.accept(owner.originShoppingList)                                         // 필터링 데이터도 업데이트
-                owner.tableView.reloadData()
                 owner.textField.text = ""
-            }
-            .disposed(by: disposeBag)
-        
-        // 검색
-        output.searchText
-            .bind(with: self) { owner, value in
-                let searched = value.isEmpty ? owner.originShoppingList : owner.originShoppingList.filter { $0.name.contains(value) }
-                owner.filteredShoppingList.accept(searched)
             }
             .disposed(by: disposeBag)
         
@@ -163,26 +166,6 @@ final class ShoppingViewController: BaseViewController {
                 owner.navigationController?.pushViewController(detail, animated: true)
             }
             .disposed(by: disposeBag)
-        
-        
-        // 셀 삭제
-        tableView.rx.itemDeleted
-            .bind(with: self) { owner, indexPath in
-                owner.originShoppingList.remove(at: indexPath.row)
-                owner.filteredShoppingList.accept(owner.originShoppingList)
-                self.tableView.reloadData()
-            }
-            .disposed(by: disposeBag)
+        }
+
     }
-    
-    private func toggleCheckButton(_ row: Int) {
-        originShoppingList[row].done.toggle()
-        filteredShoppingList.accept(originShoppingList)
-    }
-    
-    private func toggleStarButton(_ row: Int) {
-        originShoppingList[row].favorite.toggle()
-        filteredShoppingList.accept(originShoppingList)
-    }
-    
-}

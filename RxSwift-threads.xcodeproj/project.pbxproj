@@ -30,6 +30,7 @@
 		C480617F2C60E57E003FF7EE /* PasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480617E2C60E57E003FF7EE /* PasswordViewModel.swift */; };
 		C48061812C60E95F003FF7EE /* PhoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061802C60E95F003FF7EE /* PhoneViewModel.swift */; };
 		C48061842C60EBA0003FF7EE /* BirthdayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061832C60EBA0003FF7EE /* BirthdayViewModel.swift */; };
+		C48061B52C638634003FF7EE /* ShoppingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48061B42C638634003FF7EE /* ShoppingCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		C480617E2C60E57E003FF7EE /* PasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewModel.swift; sourceTree = "<group>"; };
 		C48061802C60E95F003FF7EE /* PhoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewModel.swift; sourceTree = "<group>"; };
 		C48061832C60EBA0003FF7EE /* BirthdayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayViewModel.swift; sourceTree = "<group>"; };
+		C48061B42C638634003FF7EE /* ShoppingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +128,6 @@
 			children = (
 				C48061552C5E6B7B003FF7EE /* SignTextField.swift */,
 				C480615A2C5E6C72003FF7EE /* PointButton.swift */,
-				C480616F2C5F9447003FF7EE /* ShoppingTableViewCell.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -171,7 +172,8 @@
 		C480617A2C60A8C2003FF7EE /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */,
+				C48061B62C638645003FF7EE /* Base */,
+				C48061B32C638625003FF7EE /* Cell */,
 				C48061542C5E6B66003FF7EE /* CustomView */,
 			);
 			path = Component;
@@ -193,6 +195,23 @@
 				C48061832C60EBA0003FF7EE /* BirthdayViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C48061B32C638625003FF7EE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C480616F2C5F9447003FF7EE /* ShoppingTableViewCell.swift */,
+				C48061B42C638634003FF7EE /* ShoppingCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C48061B62C638645003FF7EE /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C480615F2C5E6D2F003FF7EE /* BaseViewController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +307,7 @@
 				C48061662C5E835A003FF7EE /* BirthdayViewController.swift in Sources */,
 				C48061592C5E6BCF003FF7EE /* Resource.swift in Sources */,
 				C48061602C5E6D2F003FF7EE /* BaseViewController.swift in Sources */,
+				C48061B52C638634003FF7EE /* ShoppingCollectionViewCell.swift in Sources */,
 				C480613C2C5B905A003FF7EE /* SceneDelegate.swift in Sources */,
 				C48061842C60EBA0003FF7EE /* BirthdayViewModel.swift in Sources */,
 				C48061622C5E7353003FF7EE /* UIViewController+.swift in Sources */,

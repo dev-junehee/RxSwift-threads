@@ -28,7 +28,6 @@ final class ShoppingViewModel {
     }
     
     func transform(input: Input) -> Output {
-        
         // 검색
         let searchText = input.searchText
             .orEmpty
